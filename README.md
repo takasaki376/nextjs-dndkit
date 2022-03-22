@@ -109,4 +109,5 @@ yarn dev
 
 ```
 yarn add @dnd-kit/core
+yarn add @dnd-kit/sortable
 ```

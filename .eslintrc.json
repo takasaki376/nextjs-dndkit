@@ -1,3 +1,92 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "env": { "browser": true, "es2021": true, "node": true },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "next",
+    "next/core-web-vitals",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": ["tsconfig.json"],
+  },
+  "plugins": ["@typescript-eslint",  "tailwindcss"],
+  "settings": { 
+    "react": { "version": "detect" } 
+  },
+  "rules": {
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-restricted-imports": [
+      "error",
+      { "paths": [{ "name": "react", "importNames": ["default"] }] }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      { "selector": "TSEnumDeclaration", "message": "Don't declare enums" },
+      {
+        "selector": "TSInterfaceDeclaration",
+        "message": "Don't declare Interface"
+      },
+      {
+        "selector": "ForInStatement",
+        "message":
+          "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
+      },
+      {
+        "selector": "ForOfStatement",
+        "message":
+          "iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations."
+      },
+      {
+        "selector": "LabeledStatement",
+        "message":
+          "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand."
+      },
+      {
+        "selector": "WithStatement",
+        "message":
+          "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
+      }
+    ],
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "func-style": ["error", "expression"],
+    "prefer-template": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "import/no-default-export": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/consistent-type-imports": ["warn",{ "prefer": "type-imports" }],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ],
+    "jsx-a11y/alt-text": "OFF",
+    "tailwindcss/no-contradicting-classname": "error"
+  },
+  "overrides": [
+    {
+      "files": ["src/pages/**/*.page.tsx", "src/pages/**/**/*.page.tsx","src/pages/**/**/*.ts"],
+      "rules": { "import/no-default-export": "off" },
+      "parserOptions": {
+        "project": ["./tsconfig.json"] // Specify it only for TypeScript files
+      },
+    },
+  ],
 }
