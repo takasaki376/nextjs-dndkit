@@ -1,161 +1,138 @@
-import { VFC } from "react";
-import { closestCorners, DndContext, DragOverEvent, DragStartEvent, KeyboardSensor, Over, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import {  useState } from "react";
-import { Target } from "src/types";
+import { Fragment, VFC } from "react";
+import clsx from "clsx";
+import { useDroppable } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { Target,TodosState } from "src/types";
+import { selectTodos, useStore } from "src/lib/store";
+import { Popover, Transition } from "@headlessui/react";
+import SortableItem from "./SortableItem";
 
 type Props = {
     title:string;
     target: Target;
   };
 //   export type TaskType = "today" | "tomorrow" | "other";
+const getStringFromDate = (date: Date) => {
+  const year_str: string = date.getFullYear().toString();
+  //月だけ+1すること
+  const month_str: string = 1 + date.getMonth().toString();
+  const day_str: string = date.getDate().toString();
 
+  let format_str = "YYYY-MM-DD";
+  format_str = format_str.replace(/YYYY/g, year_str);
+  format_str = format_str.replace(/MM/g, month_str);
+  format_str = format_str.replace(/DD/g, day_str);
+  return format_str;
+};
 
 export const SortableList:VFC<Props> = (props) => {
-    const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(KeyboardSensor, {
-          coordinateGetter: sortableKeyboardCoordinates,
-        })
-      );
+  const allTodos = useStore((state: TodosState) => {
+    return state.todos;
+  });
+  const date = new Date();
+  const strDate = getStringFromDate(date);
 
-      const [sourceContainer, setSourceContainer] = useState<Target | null>(null);
-     // つかんだとき;
-     const handleDragStart = (event: DragStartEvent) => {
-        const { active } = event;
-        const { id } = active;
-
-        const activeContainer = props.target;
-        setSourceContainer(activeContainer);
-    };
-//動かして他の要素の上に移動した時
-const handleDragOver = (event: DragOverEvent) => {
-    const { active, over } = event;
-    const { id } = active;
-    const { id: overId } = over as Over;
-
-    // Find the containers
-    const activeContainer = props.target;
-    const overContainer = findContainer(overId);
-
-    if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer === overContainer
-    ) {
-      return;
-    }
-
-    const activeItems =
-      activeContainer === "today"
-        ? todoToday
-        : activeContainer === "tomorrow"
-        ? todoTomorrow
-        : todoOther;
-    const overItems =
-      overContainer === "today"
-        ? todoToday
-        : overContainer === "tomorrow"
-        ? todoTomorrow
-        : todoOther;
-
-    const activeIndex = activeItems.findIndex((item) => item.id === Number(id));
-    const overIndex = overItems.findIndex((item) => item.id === Number(overId));
-
-    const newIndex = overIndex + 1;
-    let newItem: TodoType;
-
-    if (activeContainer === "today") {
-      newItem = todoToday[activeIndex];
-      setTodoToday([...todoToday.filter((item) => item.id !== Number(id))]);
-    } else if (activeContainer === "tomorrow") {
-      newItem = todoTomorrow[activeIndex];
-      setTodoTomorrow([
-        ...todoTomorrow.filter((item) => item.id !== Number(id)),
-      ]);
-    } else {
-      newItem = todoOther[activeIndex];
-      setTodoOther([...todoOther.filter((item) => item.id !== Number(id))]);
-    }
-
-    if (overContainer === "today") {
-      setTodoToday([
-        ...todoToday.slice(0, newIndex),
-        newItem,
-        ...todoToday.slice(newIndex, todoToday.length),
-      ]);
-    } else if (overContainer === "tomorrow") {
-      setTodoTomorrow([
-        ...todoTomorrow.slice(0, newIndex),
-        newItem,
-        ...todoTomorrow.slice(newIndex, todoTomorrow.length),
-      ]);
-    } else {
-      setTodoOther([
-        ...todoOther.slice(0, newIndex),
-        newItem,
-        ...todoOther.slice(newIndex, todoOther.length),
-      ]);
-    }
-  };
-
-  //要素を離したとき
-  const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event;
-    const { id } = active;
-    const { id: overId } = over as Over;
-
-    const activeContainer = findContainer(id);
-    const overContainer = findContainer(overId);
-
-    if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer !== overContainer
-    ) {
-      return;
-    }
-
-    setActiveId(Number(id));
-    setTargetContainer(activeContainer);
-
-    const items =
-      activeContainer === "today"
-        ? todoToday
-        : activeContainer === "tomorrow"
-        ? todoTomorrow
-        : todoOther;
-
-    const activeIndex = items.findIndex((item) => item.id === Number(id));
-    const overIndex = items.findIndex((item) => item.id === Number(overId));
-
-    if (activeContainer === sourceContainer) {
-      setTargetIndex(activeIndex < overIndex ? overIndex + 1 : overIndex);
-    } else {
-      setTargetIndex(overIndex);
-    }
-
-    if (activeIndex !== overIndex) {
-      if (activeContainer === "today") {
-        setTodoToday(arrayMove(todoToday, activeIndex, overIndex));
-      } else if (activeContainer === "tomorrow") {
-        setTodoTomorrow(arrayMove(todoTomorrow, activeIndex, overIndex));
-      } else {
-        setTodoOther(arrayMove(todoOther, activeIndex, overIndex));
-      }
-    }
-  };
-    
+  const { setNodeRef } = useDroppable({
+    id: props.target,
+  });
+  const todos = selectTodos(allTodos ,strDate, props.target) 
+  const todoIds = todos.map((todoTask) => String(todoTask.id));
 
     return (
-        <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-      >
-    
-          </DndContext>
+      <SortableContext
+      id={props.target}
+      items={todoIds}
+      strategy={verticalListSortingStrategy}
+    >
+    <Popover className="lg:min-h-screen">
+      {({ open }) => {
+        return (
+          <>
+            <div
+              className={clsx("mb-3 text-2xl font-semibold", {
+                "text-primary": props.target == "today",
+                "text-secondary": props.target == "nextday",
+                "text-tertiary": props.target == "other",
+              })}
+            >
+              {props.title}
+            </div>
+            <div className="flex flex-col">
+              <Popover.Button>
+                <div className="flex items-center">
+                  <button className="px-2 mr-2 w-6 h-6 text-white bg-gray-300 rounded-full">
+                    +
+                  </button>
+                  <div className="text-gray-300">タスクを追加する</div>
+                </div>
+              </Popover.Button>
+              <div className="overflow-y-auto pt-3 w-full max-h-48 lg:max-h-full">
+                <ol>
+                <div ref={setNodeRef}>
+                    {todos.map((todo) => {
+                      return (
+                        <SortableItem
+                          todo={todo}
+                          key={`todo-${todo.task}-${todo.id}`}
+                          target={props.target}
+                        />
+                      );
+                    })}
+                  </div>
+                </ol>
+              </div>
+            </div>
+            <div className="relative">
+              <Transition
+                show={open}
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 -translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 -translate-y-1"
+              >
+                <Popover.Panel
+                  static
+                  className="lg:hidden fixed right-[50%] bottom-0 z-50 bg-white dark:bg-black translate-x-[50%]"
+                >
+                  <div className="relative">
+                    <input
+                      className="px-2 mb-3 w-80 h-8 dark:text-gray-700 bg-[#F1F5F9] rounded-full border-none outline-none"
+                      
+                    />
+                  </div>
+                  <div className="flex items-center mb-3 text-white">
+                    <button
+                      className="px-4 mr-2 h-9 text-sm whitespace-nowrap bg-primary rounded-full"
+                      
+                    >
+                      + 今日する
+                    </button>
+                    <button
+                      className="px-4 mr-2 h-9 text-sm whitespace-nowrap bg-secondary rounded-full"
+                      
+                    >
+                      + 明日する
+                    </button>
+                    <button
+                      className="px-4 h-9 text-sm whitespace-nowrap bg-tertiary rounded-full"
+                      
+                    >
+                      + 今度する
+                    </button>
+                  </div>
+                </Popover.Panel>
+              </Transition>
+            </div>
+          </>
+        );
+      }}
+    </Popover>
+    </SortableContext>
     )
 }

@@ -1,13 +1,6 @@
 {
   "root": true,
   "env": { "browser": true, "es2021": true, "node": true },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "next",
-    "next/core-web-vitals",
-    "prettier"
-  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -21,6 +14,14 @@
   "settings": { 
     "react": { "version": "detect" } 
   },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "next",
+    "next/core-web-vitals",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
   "rules": {
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
