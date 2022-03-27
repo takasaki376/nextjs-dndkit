@@ -3,7 +3,7 @@ import { useRef, VFC } from 'react';
 import {CSS} from '@dnd-kit/utilities';
 import { ListTodo, Target } from 'src/types';
 import clsx from "clsx";
-import { DocumentDuplicateIcon, TrashIcon } from "@heroicons/react/outline";
+// import { DocumentDuplicateIcon, TrashIcon } from "@heroicons/react/outline";
 
 type Props = {
   todo: ListTodo;
@@ -13,7 +13,7 @@ type Props = {
 
 const SortableItem:VFC<Props> = (props) => {
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: String(props.todo.id) });
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.todo.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -51,14 +51,14 @@ const SortableItem:VFC<Props> = (props) => {
             {props.todo.task}
           </div>
         </div>
-        <div className="flex w-1/6 opacity-10 group-hover:opacity-100">
+        {/* <div className="flex w-1/6 opacity-10 group-hover:opacity-100">
           <button className="p-1 ml-5" >
             <DocumentDuplicateIcon className="w-5 h-5 text-gray-500 dark:text-white" />
           </button>
           <button className="p-1 sm:mx-3" >
             <TrashIcon className="w-5 h-5 text-gray-500 dark:text-white" />
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   )

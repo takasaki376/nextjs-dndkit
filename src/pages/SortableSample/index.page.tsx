@@ -11,7 +11,7 @@ import {
   PointerSensor,
   closestCorners,  DragOverEvent, DragStartEvent,  Over, DragEndEvent
 } from '@dnd-kit/core';
-import { arrayMove ,sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { arrayMove ,horizontalListSortingStrategy,SortableContext,sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import {  useEffect } from "react";
 import { selectTodos, useStore } from "src/lib/store";
 import {  TodosState } from "src/types";
@@ -33,9 +33,6 @@ const SortableSample:NextPage = (() => {
   const getTodos = useStore((state) => {
     return state.getTodos;
   });
-  const allTodos = useStore((state: TodosState) => {
-    return state.todos;
-  });
   const findTarget = useStore((state) => {
     return state.findTarget;
   });
@@ -47,9 +44,6 @@ const SortableSample:NextPage = (() => {
   });
   const setSourceContainer = useStore((state) => {
     return state.setSourceContainer;
-  });
-  const sourceContainer = useStore((state) => {
-    return state.sourceContainer;
   });
   const taskDropOver = useStore((state) => {
     return state.taskDropOver;
@@ -68,8 +62,6 @@ const SortableSample:NextPage = (() => {
     })
   );
 
-  // const [sourceContainer, setSourceContainer] = useState<Target | null>(null);
-  // const [targetIndex, setTargetIndex] = useState<number>(-1);
 
   // つかんだとき;
   const handleDragStart = (event: DragStartEvent) => {
@@ -133,11 +125,11 @@ const SortableSample:NextPage = (() => {
     onDragOver={handleDragOver}
     onDragEnd={handleDragEnd}
     >
-    <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-flow-row auto-rows-min gap-2 lg:gap-4 lg:mt-6">
-      <SortableList title="今日する" target="today" />
-      <SortableList title="明日する" target="nextday" />
-      <SortableList title="今度する" target="other" />
-    </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-flow-row auto-rows-min gap-2 lg:gap-4 lg:mt-6 m-8">
+        <SortableList title="A" target="today" />
+        <SortableList title="B" target="nextday" />
+        <SortableList title="C" target="other" />
+      </div>
   </DndContext>
  )})
 

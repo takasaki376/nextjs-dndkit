@@ -41,12 +41,8 @@ export const SortableList:VFC<Props> = (props) => {
   const todos = selectTodos(allTodos ,strDate, props.target) 
   const todoIds = todos.map((todoTask) => String(todoTask.id));
 
-    return (
-      <SortableContext
-      id={props.target}
-      items={todoIds}
-      strategy={verticalListSortingStrategy}
-    >
+  return (
+   
     <Popover className="lg:min-h-screen">
       {({ open }) => {
         return (
@@ -71,17 +67,23 @@ export const SortableList:VFC<Props> = (props) => {
               </Popover.Button>
               <div className="overflow-y-auto pt-3 w-full max-h-48 lg:max-h-full">
                 <ol>
-                <div ref={setNodeRef}>
-                    {todos.map((todo) => {
-                      return (
-                        <SortableItem
-                          todo={todo}
-                          key={`todo-${todo.task}-${todo.id}`}
-                          target={props.target}
-                        />
-                      );
-                    })}
-                  </div>
+                <SortableContext
+                  id={props.target}
+                  items={todoIds}
+                  strategy={verticalListSortingStrategy}
+                >
+                    <div ref={setNodeRef}>
+                      {todos.map((todo) => {
+                        return (
+                          <SortableItem
+                            todo={todo}
+                            key={`todo-${todo.task}-${todo.id}`}
+                            target={props.target}
+                          />
+                        );
+                      })}
+                    </div>
+                  </SortableContext>
                 </ol>
               </div>
             </div>
@@ -133,6 +135,6 @@ export const SortableList:VFC<Props> = (props) => {
         );
       }}
     </Popover>
-    </SortableContext>
-    )
+    
+  )
 }
