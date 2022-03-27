@@ -1,10 +1,21 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
-    <h1 className="text-3xl font-bold underline text-red-600">
-      Hello world!
-    </h1>
+    <div>
+      <Link href='/SortableSample'>
+        <a >
+          SortableSample
+        </a>
+      </Link>
+      <br />
+      <Link href='/Sortable'>
+        <a >
+          Sortable
+        </a>
+      </Link>
+    </div>
   )
 }
 

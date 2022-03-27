@@ -8,7 +8,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": ["tsconfig.json"],
+    "project": ["tsconfig.json"]
   },
   "plugins": ["@typescript-eslint",  "tailwindcss"],
   "settings": { 
@@ -87,7 +87,7 @@
       "rules": { "import/no-default-export": "off" },
       "parserOptions": {
         "project": ["./tsconfig.json"] // Specify it only for TypeScript files
-      },
-    },
-  ],
+      }
+    }
+  ]
 }
