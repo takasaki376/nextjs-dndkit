@@ -1,39 +1,28 @@
-import React, {useEffect} from 'react';
-// import classNames from 'classnames';
 import type {DraggableSyntheticListeners} from '@dnd-kit/core';
 import type {Transform} from '@dnd-kit/utilities';
-
-// import {Handle, Remove} from './components';
-
+import { CSSProperties, forwardRef, memo } from 'react';
 import styles from './Item.module.css';
 
 export interface Props {
-  dragOverlay?: boolean;
   color?: string;
   disabled?: boolean;
-  dragging?: boolean;
   height?: number;
   index?: number;
-  fadeIn?: boolean;
   transform?: Transform | null;
   listeners?: DraggableSyntheticListeners;
   sorting?: boolean;
   style?: React.CSSProperties;
   transition?: string | null;
-  wrapperStyle?: React.CSSProperties;
   value: React.ReactNode;
   onRemove?(): void;
 }
 
-export const Item = React.memo(
-  React.forwardRef<HTMLLIElement, Props>(
+export const Item = memo(
+  forwardRef<HTMLLIElement, Props>(
     (
       {
         color,
-        dragOverlay,
-        dragging,
         disabled,
-        fadeIn,
         height,
         index,
         listeners,
@@ -43,36 +32,16 @@ export const Item = React.memo(
         transition,
         transform,
         value,
-        wrapperStyle,
         ...props
       },
       ref
     ) => {
-      useEffect(() => {
-        if (!dragOverlay) {
-          return;
-        }
-
-        document.body.style.cursor = 'grabbing';
-
-        return () => {
-          document.body.style.cursor = '';
-        };
-      }, [dragOverlay]);
-
       return  (
         <li
-        //   className={classNames(
-        //     styles.Wrapper,
-        //     fadeIn && styles.fadeIn,
-        //     sorting && styles.sorting,
-        //     dragOverlay && styles.dragOverlay
-        //   )}
-        className={styles.Wrapper}
+          className={styles.Wrapper}
           style={
             {
-              ...wrapperStyle,
-              transition: [transition, wrapperStyle?.transition]
+              transition: [transition]
                 .filter(Boolean)
                 .join(', '),
               '--translate-x': transform
@@ -89,32 +58,18 @@ export const Item = React.memo(
                 : undefined,
               '--index': index,
               '--color': color,
-            } as React.CSSProperties
+            } as CSSProperties
           }
           ref={ref}
         >
-          <div
-            // className={classNames(
-            //   styles.Item,
-            //   dragging && styles.dragging,
-            //   handle && styles.withHandle,
-            //   dragOverlay && styles.dragOverlay,
-            //   disabled && styles.disabled,
-            //   color && styles.color
-            // )}
+          <div            
             className={styles.Item}
             style={style}
             data-cypress="draggable-item"
             {...listeners}
             {...props}
-            
           >
-            {value}
-            {/* <span className={styles.Actions}>
-              {onRemove ? (
-                <Remove className={styles.Remove} onClick={onRemove} />
-              ) : null}
-            </span> */}
+            {value}            
           </div>
         </li>)
     }

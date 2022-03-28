@@ -8,12 +8,10 @@ export type SortableItemProps = {
     id: string;
     index: number;
     disabled?: boolean;
-    wrapperStyle({index}: {index: number}): React.CSSProperties;
 }
 
 export type Props = {
     cancelDrop?: CancelDrop;
-    wrapperStyle?(args: {index: number}): React.CSSProperties;
     items?: Items;
     strategy?: SortingStrategy;
     scrollable?: boolean;

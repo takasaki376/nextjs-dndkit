@@ -13,8 +13,6 @@ import { NextPage } from "next";
  const MultipleContainers = ({    
     cancelDrop,
     items: initialItems,
-    wrapperStyle = () => ({}),
-    scrollable,
   }: Props) => {
     const [items, setItems] = useState<Items>(
       () =>
@@ -301,22 +299,20 @@ import { NextPage } from "next";
                     id={containerId}
                     label={`Column ${containerId}`}
                     items={items[containerId]}
-                    scrollable={scrollable}
                     // onRemove={() => handleRemove(containerId)}
                     >
                     <SortableContext items={items[containerId]} strategy={verticalListSortingStrategy}>
-                        {items[containerId].map((value, index) => {
+                      {items[containerId].map((value, index) => {
                         return (
                             <SortableItem
                                 disabled={isSortingContainer}
                                 key={value}
                                 id={value}
-                                index={index}
-                                wrapperStyle={wrapperStyle}                    
+                                index={index}                 
                                 containerId={containerId}
                             />
                         );
-                        })}
+                      })}
                     </SortableContext>
                 </DroppableContainer>
             ))}            

@@ -5,8 +5,6 @@ export type Props = {
     children: ReactNode;
     label?: string;
     style?: CSSProperties;    
-    horizontal?: boolean;
-    shadow?: boolean;
     hover?: boolean;
   }
   
@@ -14,11 +12,8 @@ export type Props = {
     (
       {
         children,     
-        horizontal,
-        hover,
         label,        
         style,
-        shadow,
         ...props
       }: Props,
       ref
