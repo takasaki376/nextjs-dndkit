@@ -13,12 +13,9 @@ type Props = {
 
 
 const SortableItem:VFC<Props> = (props) => {
-  const activeId = useStore((state) => {
-    return state.activeId;
-  });
-
+  
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.todo.id });
-  const isSortingContainer = activeId ? true : false;
+  
 
   const style = {
     transform: CSS.Transform.toString(transform),

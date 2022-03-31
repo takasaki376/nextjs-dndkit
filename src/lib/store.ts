@@ -160,10 +160,10 @@ const useStore = create<TodosState>(
             case "today":
               newItem.dueDate = getToday();
               break;
-            case "today":
+            case "nextday":
               newItem.dueDate = getTommorow()
               break;
-            case "today":
+            case "other":
               newItem.dueDate = ""
               break;
             default:
@@ -211,11 +211,6 @@ const useStore = create<TodosState>(
           const activeIndex = items.findIndex((item) => item.id === id);
           const overIndex = items.findIndex((item) => item.id === overId);
           
-          console.log(`activeTarget=${activeTarget}`)
-          console.log(`activeIndex=${id}`)
-          console.log(`overIndex=${overId}`)
-
-
           let activeContainer :ListTodo[] = []
           if (activeIndex !== overIndex) {
             activeContainer = arrayMove(items, activeIndex, overIndex);
