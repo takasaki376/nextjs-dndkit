@@ -57,7 +57,6 @@ export function DroppableContainer({
         ref={setNodeRef}
         style={
           {
-            ...style,
             '--columns': 1,
           } as React.CSSProperties
         }

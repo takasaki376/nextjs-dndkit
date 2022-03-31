@@ -18,7 +18,7 @@ type Props = {
 const getStringFromDate = (date: Date) => {
   const year_str: string = date.getFullYear().toString();
   //月だけ+1すること
-  const month_str: string = 1 + date.getMonth().toString();
+  const month_str: string = (date.getMonth() + 1).toString();
   const day_str: string = date.getDate().toString();
 
   let format_str = "YYYY-MM-DD";
@@ -35,12 +35,17 @@ export const SortableList:VFC<Props> = (props) => {
   const date = new Date();
   const strDate = getStringFromDate(date);
 
-  const { setNodeRef } = useDroppable({
-    id: props.target,
-  });
+  
   const todos = selectTodos(allTodos ,strDate, props.target) 
   const todoIds = todos.map((todoTask) => String(todoTask.id));
 
+  const { setNodeRef } = useDroppable({
+    id: props.target,
+    data: {
+      type: 'container',
+      children: todos,
+    },
+  });
   return (
    
     <Popover className="lg:min-h-screen">
@@ -65,14 +70,20 @@ export const SortableList:VFC<Props> = (props) => {
                   <div className="text-gray-300">タスクを追加する</div>
                 </div>
               </Popover.Button>
-              <div className="overflow-y-auto pt-3 w-full max-h-48 lg:max-h-full">
-                <ol>
-                <SortableContext
-                  id={props.target}
-                  items={todoIds}
-                  strategy={verticalListSortingStrategy}
-                >
-                    <div ref={setNodeRef}>
+              <div className="overflow-y-auto pt-3 w-full max-h-48 lg:max-h-full overflow-x-hidden">
+                <ul>
+               
+                  <div ref={setNodeRef} 
+                    style={
+                    {
+                      '--columns': 1,
+                    } as React.CSSProperties
+                  }>
+                    <SortableContext
+                      id={props.target}
+                      items={todoIds}
+                      strategy={verticalListSortingStrategy}
+                    >
                       {todos.map((todo) => {
                         return (
                           <SortableItem
@@ -82,9 +93,9 @@ export const SortableList:VFC<Props> = (props) => {
                           />
                         );
                       })}
-                    </div>
-                  </SortableContext>
-                </ol>
+                    </SortableContext>
+                  </div>
+                </ul>
               </div>
             </div>
             <div className="relative">

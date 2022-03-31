@@ -11,10 +11,9 @@ import {
   PointerSensor,
   closestCorners,  DragOverEvent, DragStartEvent,  Over, DragEndEvent
 } from '@dnd-kit/core';
-import { arrayMove ,horizontalListSortingStrategy,SortableContext,sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import {  useEffect } from "react";
-import { selectTodos, useStore } from "src/lib/store";
-import {  TodosState } from "src/types";
+import {  useStore } from "src/lib/store";
 
 const getStringFromDate = (date: Date) => {
   const year_str: string = date.getFullYear().toString();
@@ -42,8 +41,8 @@ const SortableSample:NextPage = (() => {
   const orveTarget = useStore((state) => {
     return state.orveTarget;
   });
-  const setSourceContainer = useStore((state) => {
-    return state.setSourceContainer;
+  const setActiveId = useStore((state) => {
+    return state.setActiveId;
   });
   const taskDropOver = useStore((state) => {
     return state.taskDropOver;
@@ -69,7 +68,7 @@ const SortableSample:NextPage = (() => {
     const { id } = active;
 
     // つかんだタスクがあるコンテナを保存しておく
-    setSourceContainer(id);
+    setActiveId(id);
   };
 
   //動かして他の要素の上に移動した時
@@ -82,13 +81,6 @@ const SortableSample:NextPage = (() => {
     findTarget(id, true);
     findTarget(overId, false);
     
-    if (
-      !activeTarget ||
-      !orveTarget ||
-      activeTarget === orveTarget
-    ) {
-      return;
-    }
     taskDropOver(id, overId, strDate);
   };
 

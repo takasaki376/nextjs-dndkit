@@ -3,6 +3,7 @@ import { useRef, VFC } from 'react';
 import {CSS} from '@dnd-kit/utilities';
 import { ListTodo, Target } from 'src/types';
 import clsx from "clsx";
+import { useStore } from 'src/lib/store';
 // import { DocumentDuplicateIcon, TrashIcon } from "@heroicons/react/outline";
 
 type Props = {
@@ -12,8 +13,12 @@ type Props = {
 
 
 const SortableItem:VFC<Props> = (props) => {
+  const activeId = useStore((state) => {
+    return state.activeId;
+  });
 
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.todo.id });
+  const isSortingContainer = activeId ? true : false;
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -22,7 +27,7 @@ const SortableItem:VFC<Props> = (props) => {
   const focusRef = useRef(null);
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <li ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <div className="group flex justify-between items-center mr-5 mb-4">
         <div className="flex items-center ">
           <input
@@ -60,7 +65,7 @@ const SortableItem:VFC<Props> = (props) => {
           </button>
         </div> */}
       </div>
-    </div>
+    </li>
   )
 }
 

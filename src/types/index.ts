@@ -20,11 +20,11 @@ export type PostTodo = {
 
 export type TodosState = {
   todos: ListTodo[];
-  sourceContainer :Target | null;
+  activeId :Target | null;
   activeTarget:Target | null;
   orveTarget:Target | null;
   getTodos: () => void;
-  setSourceContainer: (id :string) => void;
+  setActiveId: (id :string) => void;
   findTarget: (id :string ,isActive :boolean) => void;
   taskDropOver: (id :string ,overId :string, strDate :string) => void;
   taskDropEnd: (id :string ,overId :string, strDate :string) => void;

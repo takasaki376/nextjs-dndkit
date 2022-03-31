@@ -42,14 +42,9 @@ export function SortableItem({
               '--translate-y': transform
                 ? `${Math.round(transform.y)}px`
                 : undefined,
-              '--scale-x': transform?.scaleX
-                ? `${transform.scaleX}`
-                : undefined,
-              '--scale-y': transform?.scaleY
-                ? `${transform.scaleY}`
-                : undefined,
-              '--index': index,
-              '--color': getColor(id),
+
+
+
             } as CSSProperties
           }
           ref={disabled ? undefined : setNodeRef}
