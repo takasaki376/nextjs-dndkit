@@ -9,7 +9,7 @@ import {
   useSensor,
   useSensors,
   PointerSensor,
-  closestCorners,  DragOverEvent, DragStartEvent,  Over, DragEndEvent
+  closestCorners,  DragOverEvent, DragStartEvent,  Over, DragEndEvent, MeasuringStrategy
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import {  useEffect } from "react";
@@ -60,7 +60,9 @@ const SortableSample:NextPage = (() => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
+  const handleRemove =  (id: string) => {
+    setItems((items) => items.filter((item) => item !== id))
+  }
 
   // つかんだとき;
   const handleDragStart = (event: DragStartEvent) => {
@@ -116,6 +118,7 @@ const SortableSample:NextPage = (() => {
     onDragStart={handleDragStart}
     onDragOver={handleDragOver}
     onDragEnd={handleDragEnd}
+    measuring={{droppable: {strategy: MeasuringStrategy.Always}}}
     >
       <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-flow-row auto-rows-min gap-2 lg:gap-4 lg:mt-6 m-8">
         <SortableList title="A" target="today" />

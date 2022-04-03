@@ -4,11 +4,12 @@ import {CSS} from '@dnd-kit/utilities';
 import { ListTodo, Target } from 'src/types';
 import clsx from "clsx";
 import { useStore } from 'src/lib/store';
-// import { DocumentDuplicateIcon, TrashIcon } from "@heroicons/react/outline";
+import { DocumentDuplicateIcon, TrashIcon } from "@heroicons/react/outline";
 
 type Props = {
   todo: ListTodo;
   target: Target;
+  onRemove?(id: string): void;
 };
 
 
@@ -53,14 +54,14 @@ const SortableItem:VFC<Props> = (props) => {
             {props.todo.task}
           </div>
         </div>
-        {/* <div className="flex w-1/6 opacity-10 group-hover:opacity-100">
-          <button className="p-1 ml-5" >
+        <div className="flex w-1/6 opacity-10 group-hover:opacity-100">
+          {/* <button className="p-1 ml-5" >
             <DocumentDuplicateIcon className="w-5 h-5 text-gray-500 dark:text-white" />
-          </button>
+          </button> */}
           <button className="p-1 sm:mx-3" >
             <TrashIcon className="w-5 h-5 text-gray-500 dark:text-white" />
           </button>
-        </div> */}
+        </div>
       </div>
     </li>
   )
