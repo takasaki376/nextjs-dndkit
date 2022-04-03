@@ -10,9 +10,9 @@ const Home: NextPage = () => {
         </a>
       </Link>
       <br />
-      <Link href='/Sortable'>
+      <Link href='/MultipleContainers'>
         <a >
-          Sortable
+        MultipleContainers
         </a>
       </Link>
     </div>
