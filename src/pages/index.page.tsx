@@ -4,17 +4,21 @@ import Link from 'next/link'
 const Home: NextPage = () => {
   return (
     <div>
-      <Link href='/SortableSample'>
-        <a >
-          SortableSample
-        </a>
-      </Link>
+      <div className='my-4' >
+        <Link href='/TodoSample'>
+          <a >
+          TodoSample
+          </a>
+        </Link>
+      </div>
       <br />
-      <Link href='/MultipleContainers'>
-        <a >
-        MultipleContainers
-        </a>
-      </Link>
+      <div className='my-4' >
+        <Link href='/MultipleContainers'>
+          <a >
+          MultipleContainers
+          </a>
+        </Link>
+      </div>
     </div>
   )
 }
