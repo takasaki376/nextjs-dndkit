@@ -1,5 +1,4 @@
 import { useSortable } from "@dnd-kit/sortable";
-import { getColor } from "./functions";
 import { SortableItemProps } from "./types";
 import styles from './Item/Item.module.css';
 import { CSSProperties } from "react";
@@ -23,7 +22,6 @@ export function SortableItem({
       //   value={id}
       //   sorting={isSorting}
       //   index={index}
-      //   color={getColor(id)}
       //   transition={transition}
       //   transform={transform}
       //   listeners={listeners}
