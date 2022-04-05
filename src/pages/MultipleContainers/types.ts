@@ -1,3 +1,4 @@
+import { CSSProperties, ReactNode } from "react";
 
 export type Items = Record<string, string[]>;
 
@@ -11,3 +12,10 @@ export type SortableItemProps = {
 export type Props = {
     items?: Items;
 }
+
+export type ContainerProps = {
+    children: ReactNode;
+    label?: string;
+    style?: CSSProperties;    
+    hover?: boolean;
+  }

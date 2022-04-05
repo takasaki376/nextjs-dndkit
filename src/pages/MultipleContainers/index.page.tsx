@@ -2,7 +2,7 @@ import { closestCenter, CollisionDetection,  DndContext,  getFirstCollision, Key
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DroppableContainer } from "./DroppableContainer";
-import { createRange,  PLACEHOLDER_ID, TRASH_ID } from "./functions";
+import { createRange,  PLACEHOLDER_ID, TRASH_ID } from "../../components/functions";
 import { Items } from "./types";
 import { unstable_batchedUpdates} from 'react-dom';
 import { SortableItem } from "./SortableItem";

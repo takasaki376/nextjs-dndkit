@@ -1,8 +1,8 @@
 import { useDroppable } from "@dnd-kit/core";
 // import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from "@dnd-kit/sortable";
 // import {CSS} from '@dnd-kit/utilities';
-import { Container, ContainerProps } from "./Container";
 import styles from './Container/Container.module.css';
+import { ContainerProps } from "./types";
 
 // const animateLayoutChanges: AnimateLayoutChanges = (args) =>
 //   args.isSorting || args.wasDragging ? defaultAnimateLayoutChanges(args) : true;

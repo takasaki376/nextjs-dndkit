@@ -60,9 +60,9 @@ const SortableSample:NextPage = (() => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const handleRemove =  (id: string) => {
-    setItems((items) => items.filter((item) => item !== id))
-  }
+  // const handleRemove =  (id: string) => {
+  //   setItems((items) => items.filter((item) => item !== id))
+  // }
 
   // つかんだとき;
   const handleDragStart = (event: DragStartEvent) => {

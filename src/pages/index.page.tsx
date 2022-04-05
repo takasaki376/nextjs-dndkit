@@ -19,6 +19,14 @@ const Home: NextPage = () => {
           </a>
         </Link>
       </div>
+      <br />
+      <div className='my-4' >
+        <Link href='/Vertical'>
+          <a >
+          Vertical
+          </a>
+        </Link>
+      </div>
     </div>
   )
 }
